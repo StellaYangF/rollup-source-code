@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "types": "types.d.ts",
+  "module": "dist/es/rollup.js",
+  "bin": {
+    "rollup1": "dist/bin/rollup"
+  },
   "scripts": {
-    "build": "rollup --config"
+    "build": "rollup --config rollup.config.ts"
   },
   "keywords": [],
   "author": "",

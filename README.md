@@ -1,5 +1,4 @@
-# rollup-source-code 
-
+# rollup-source-code
 
 ## 概览
 
@@ -47,13 +46,11 @@ rollup-plugin-livereload
 - esm：es模块
 - amd
 
-> format 是 iife 和 umd 是需要指定 bundleName 
+> format 是 iife 和 umd 是需要指定 bundleName
 
 ### acorn 用法
 
 传入源码，可以生成node节点ast语法树，walk函数可以深度遍历ast语法树，访问每一个节点，进入离开时对应的钩子函数，进行操作，拿到对应的节点进行操作。
-
-
 
 ```js
 
@@ -100,6 +97,7 @@ const ast = acorn.parse(sourceCode)
 ```
 
 实现 walk 方法
+
 ```js
 function walk(astNode, { enter, leave }) {
   visit(astNode, null, enter, leave)
@@ -128,7 +126,8 @@ function visit(node, parent, enter, leave) {
 ```
 
 walk调用输出结果：
-```
+
+```cmd
 enter--- Program undefined
 enter--- ImportDeclaration Program
 enter--- ImportDefaultSpecifier ImportDeclaration
@@ -143,7 +142,7 @@ leave--- Program undefined
 
 ### 作用域
 
-#### 作用域
+#### 什么是作用域
 
 1. 在JS中，作用域是用来规定变量访问范围的规则
 2. 有局部、全局、函数、块级作用域
@@ -185,6 +184,7 @@ class Scope {
 ```
 
 模拟代码执行，形成作用域
+
 ```js
 const a = 1
 
@@ -224,6 +224,7 @@ const twoScope = new Scope({
 ## 实现 rollup
 
 ### 目录
+
 ```cmd
 ├── package.json
 ├── README.md
@@ -242,4 +243,3 @@ const twoScope = new Scope({
         ├── object.js
         └── promise.js
 ```
-
