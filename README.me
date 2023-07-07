@@ -1,1 +1,45 @@
 # rollup-source-code 
+
+
+## 概览
+
+[*rollupjs.org*](https://rollupjs.org/introduction/#overview)
+
+rollup 是一个 JavaScript 模块打包器，把小块代码编译成体积更大更复杂的库和应用等。使用包含在 es6 中新标准格式的代码模块，取代之前的CommonJS和AMD。使用es模块，可自由、无缝的采用库中的单个方法。
+
+## 背景
+
+- webpack 打包非常繁琐，打包体积比较大
+- rollup 主要打包 js 库
+- vue/react/angular 都在用 rollup 作为打包工具
+- 可以使用 es module 编写代码，rollup编译为回退为现有支持的代码格式：cjs, umd, amd 和esm.
+- tree-shaking: statically analyze code; commonJS属于动态编译，做不了tree-shaking。后面会分析到的esbuild也没有做tree-shaking.
+
+## 安装依赖
+
+```cmd
+pnpm i 
+@babel/core
+@babel/preset-env
+@rollup/plugin-commonjs CommonJS 转为 ES6
+@rollup/plugin-node-resolve
+@rollup/plugin-typescript
+lodash
+rollup
+rollup-plugin-babel
+postcss
+rollup-plugin-postcss
+rollup-plugin-terser
+tslib
+typescript
+rollup-plugin-serve
+rollup-plugin-livereload
+-D
+```
+
+## format 参数含义
+
+- iife: 自执行函数，浏览器使用
+- cjs：commonJS，Node使用
+- umd：--name xxx 浏览器和Node都可以使用
+- esm：es模块
