@@ -56,6 +56,94 @@ rollup-plugin-livereload
 ## tree-shaking
 用到的加进来，没用到的就不用。
 
+## acorn 用法
+
+传入源码，可以生成node节点ast语法树，walk函数可以深度遍历ast语法树，访问每一个节点，进入离开时对应的钩子函数，进行操作，拿到对应的节点进行操作。
 
 
-## 
+
+```js
+
+const sourceCode = 'import $ from 'jquery''
+
+
+const ast = acorn.parse(sourceCode)
+
+[astexplorer.net](https://astexplorer.net/) 解析如下：
+{
+  "type": "Program",
+  "start": 0,
+  "end": 22,
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "start": 0,
+      "end": 22,
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "start": 7,
+          "end": 8,
+          "local": {
+            "type": "Identifier",
+            "start": 7,
+            "end": 8,
+            "name": "$"
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 14,
+        "end": 22,
+        "value": "jquery",
+        "raw": "'jquery'"
+      }
+    }
+  ],
+  "sourceType": "module"
+}
+
+```
+
+实现 walk 方法
+```js
+function walk(astNode, { enter, leave }) {
+  visit(astNode, null, enter, leave)
+}
+
+function visit(node, parent, enter, leave) {
+  if (enter) {
+    enter.call(null, node, parent)
+  }
+
+  const keys = Object.keys(node).filter(key => typeof node[key] === 'object')
+
+  keys.forEach(key => {
+    const value = node[key]
+    if (Array.isArray(value)) {
+      value.forEach(val => visit(val, node, enter, leave))
+    } else if (value && value.type) {
+      visit(value, node, enter, leave)
+    }
+  })
+
+  if (leave) {
+    leave.call(null, node, parent)
+  }
+}
+```
+
+walk调用输出结果：
+```
+enter--- Program undefined
+enter--- ImportDeclaration Program
+enter--- ImportDefaultSpecifier ImportDeclaration
+enter--- Identifier ImportDefaultSpecifier
+leave--- Identifier ImportDefaultSpecifier
+leave--- ImportDefaultSpecifier ImportDeclaration
+enter--- Literal ImportDeclaration
+leave--- Literal ImportDeclaration
+leave--- ImportDeclaration Program
+leave--- Program undefined
+```

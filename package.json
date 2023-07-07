@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "types": "types.d.ts",
   "scripts": {
     "build": "rollup --config"
   },
@@ -26,5 +26,9 @@
     "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.6.0",
     "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "acorn": "^8.10.0",
+    "magic-string": "^0.30.1"
   }
 }
